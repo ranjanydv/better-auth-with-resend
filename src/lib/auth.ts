@@ -1,12 +1,11 @@
 import { db } from "@/lib/db";
-import * as argon2 from "argon2";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
+import { admin } from "better-auth/plugins";
 import { reactVerifyEmailEmail } from "./email/email-verification";
 import { resend } from "./email/resend";
 import { reactResetPasswordEmail } from "./email/reset-password";
-// import { admin } from "better-auth/plugins"
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
@@ -51,6 +50,6 @@ export const auth = betterAuth({
 	},
 	plugins: [
 		nextCookies(),
-		// admin()
+		admin()
 	]
 });
