@@ -1,12 +1,9 @@
 'use client';
 import React from 'react';
-import { signin } from './action';
 import { useRouter } from 'next/navigation';
-import {Mail} from 'lucide-react';
-
 import { createAuthClient } from 'better-auth/client';
-import Link from 'next/link';
-import { Input } from '@/components/ui/input';
+
+import { signin } from './action';
 import Login from './SigninForm';
 const SignInForm = () => {
     const authClient = createAuthClient();

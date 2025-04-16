@@ -1,17 +1,16 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
-
 import { createAuthClient } from 'better-auth/client';
 const ResetPasswordForm = () => {
     const authClient = createAuthClient();
     const router = useRouter();
     const [error, setError] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
-	const searchParams = useSearchParams();
-	const token = searchParams.get('token');
-	console.log("🚀 ~ page.tsx:13 ~ ResetPasswordForm ~ token:", token)
+    const searchParams = useSearchParams();
+    const token = searchParams.get('token');
 
+    console.log('🚀 ~ page.tsx:13 ~ ResetPasswordForm ~ token:', token);
 
     // async function clientAction(formData: FormData) {
     //     try {
@@ -44,27 +43,30 @@ const ResetPasswordForm = () => {
     // }
 
     async function clientAction(formData: FormData) {
-		if (!formData.get('email')) {
-			setError('Email is required');
-			return;
-		}
+        if (!formData.get('email')) {
+            setError('Email is required');
+
+            return;
+        }
         const { data, error } = await authClient.forgetPassword({
             email: formData.get('email') as string,
             redirectTo: '/reset-password',
         });
     }
+
     return (
         <form action={clientAction}>
             <div className="flex flex-col justify-center items-center gap-4 h-screen">
                 <h1 className="mb-4 font-bold text-2xl">Reset Password</h1>
                 {error && <div className="bg-red-100 mb-4 px-4 py-3 border border-red-400 rounded text-red-700">{error}</div>}
-                <input type="email" name="email" placeholder="Email" className="p-2 border rounded w-64" required />
+                <input required className="p-2 border rounded w-64" name="email" placeholder="Email" type="email" />
 
                 <button
-                    type="submit"
+                    aria-disabled={isLoading}
                     className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 px-4 py-2 rounded text-white disabled:cursor-not-allowed"
                     disabled={isLoading}
-                    aria-disabled={isLoading}>
+                    type="submit"
+                >
                     {isLoading ? 'Sending reset link...' : 'Reset Password'}
                 </button>
             </div>

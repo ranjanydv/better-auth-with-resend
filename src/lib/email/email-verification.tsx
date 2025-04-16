@@ -7,6 +7,7 @@ interface BetterAuthVerifyEmailEmailProps {
 
 export const VerifyEmailEmail = ({ username, verificationLink }: BetterAuthVerifyEmailEmailProps) => {
     const previewText = `Verify your email address`;
+
     return (
         <Html>
             <Head />
@@ -26,14 +27,15 @@ export const VerifyEmailEmail = ({ username, verificationLink }: BetterAuthVerif
                         <Section className="mt-[32px] mb-[32px] text-center">
                             <Button
                                 className="bg-[#000000] px-5 py-3 rounded font-semibold text-[12px] text-white text-center no-underline"
-                                href={verificationLink}>
+                                href={verificationLink}
+                            >
                                 Verify Email
                             </Button>
                         </Section>
                         <Text className="text-[14px] text-black leading-[24px]">
                             Or copy and paste this URL into your browser:{' '}
-                            <Link href={verificationLink} className="text-blue-600 no-underline">
-                                    {verificationLink}
+                            <Link className="text-blue-600 no-underline" href={verificationLink}>
+                                {verificationLink}
                             </Link>
                         </Text>
                         <Hr className="mx-0 my-[26px] border border-[#eaeaea] border-solid w-full" />
@@ -49,5 +51,6 @@ export const VerifyEmailEmail = ({ username, verificationLink }: BetterAuthVerif
 
 export function reactVerifyEmailEmail(props: BetterAuthVerifyEmailEmailProps) {
     console.log(props);
+
     return <VerifyEmailEmail {...props} />;
 }

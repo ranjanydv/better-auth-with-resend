@@ -1,8 +1,6 @@
-import { authClient } from '@/lib/auth-client';
-import { db } from '@/lib/db';
-import { user } from '@/lib/db/schemas/auth-schema';
-import { headers } from 'next/headers';
 import React from 'react';
+
+import { db } from '@/lib/db';
 async function getUsers() {
     return await db.query.user.findMany({
         columns: {
@@ -21,7 +19,7 @@ const page = async () => {
     return (
         <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
             {users.map((user) => (
-                <pre className="bg-gray-100 p-4 rounded-lg" key={user.id}>
+                <pre key={user.id} className="bg-gray-100 p-4 rounded-lg">
                     {JSON.stringify(user, null, 2)}
                 </pre>
             ))}

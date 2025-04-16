@@ -1,6 +1,10 @@
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { createAuthClient } from 'better-auth/client';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { toast } from 'sonner';
 
 import PasswordInput from '@/components/custom/password-input';
 import { Button } from '@/components/ui/button';
@@ -9,11 +13,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { GoogleIconColor, ShieldSlash } from '@/lib/icons';
+
 import { signin } from './action';
-import { createAuthClient } from 'better-auth/client';
-import { useRouter } from 'next/navigation';
-import React from 'react';
-import { toast } from 'sonner';
 
 export default function Login() {
     const authClient = createAuthClient();
@@ -54,6 +55,12 @@ export default function Login() {
         }
     }
 
+    const signInWithGithub = async () => {
+        await authClient.signIn.social({
+            provider: 'github',
+        });
+    };
+
     return (
         <div className="flex justify-center items-center bg-gray-50 min-h-[calc(100vh-50px)]">
             <Card className="flex md:flex-row flex-col shadow-lg p-0 rounded-3xl w-full max-w-5xl overflow-hidden">
@@ -65,16 +72,16 @@ export default function Login() {
                     </div>
                     <div className="flex justify-center">
                         {/* Google Login Button */}
-                        <Button variant="outline" className="mb-8">
+                        <Button className="mb-8" variant="outline">
                             <GoogleIconColor />
                             Google
                         </Button>
                     </div>
                     {/* Divider */}
                     <div className="relative flex items-center mb-8">
-                        <div className="flex-grow border-gray-200 border-t"></div>
+                        <div className="flex-grow border-gray-200 border-t" />
                         <span className="flex-shrink mx-4 text-muted-foreground text-sm">or continue with email</span>
-                        <div className="flex-grow border-gray-200 border-t"></div>
+                        <div className="flex-grow border-gray-200 border-t" />
                     </div>
                     {/* Login Form */}
                     <form action={clientAction} className="space-y-4">
@@ -82,11 +89,11 @@ export default function Login() {
                             <div className="relative">
                                 <Input
                                     required
-                                    startIcon={<Mail strokeWidth={1.4} />}
-                                    type="email"
-                                    placeholder="Email"
                                     className="pl-10"
                                     name="email"
+                                    placeholder="Email"
+                                    startIcon={<Mail strokeWidth={1.4} />}
+                                    type="email"
                                 />
                             </div>
                         </div>
@@ -98,21 +105,21 @@ export default function Login() {
                         <div className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="remember" />
-                                <Label htmlFor="remember" className="text-sm">
+                                <Label className="text-sm" htmlFor="remember">
                                     Remember me
                                 </Label>
                             </div>
-                            <Link href="/forgot-password" className="text-primary text-sm hover:underline">
+                            <Link className="text-primary text-sm hover:underline" href="/forgot-password">
                                 Forgot Password?
                             </Link>
                         </div>
-                        <Button type="submit" disabled={isLoading} aria-disabled={isLoading} className="w-full">
+                        <Button aria-disabled={isLoading} className="w-full" disabled={isLoading} type="submit">
                             LOG IN
                         </Button>
                     </form>
                     <p className="mt-6 text-sm text-center">
-                        Don't have account?{' '}
-                        <Link href="/signup" className="text-primary hover:underline">
+                        Don&apos;t have account?{' '}
+                        <Link className="text-primary hover:underline" href="/signup">
                             Create an account
                         </Link>
                     </p>
@@ -124,11 +131,11 @@ export default function Login() {
                             <div className="relative size-56">
                                 <Image
                                     fill
-                                    src="/logo.png"
                                     alt="Login illustration"
-                                    quality={100}
                                     className="rounded-full object-cover"
+                                    quality={100}
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    src="/logo.png"
                                 />
                             </div>
                         </div>
@@ -137,9 +144,9 @@ export default function Login() {
                             <p className="text-primary-foreground text-sm">Everything you need is an internet connection.</p>
                         </div>
                         <div className="flex space-x-1 mt-8">
-                            <div className="bg-white rounded-full w-5 h-2"></div>
-                            <div className="bg-white/50 rounded-full w-2 h-2"></div>
-                            <div className="bg-white/50 rounded-full w-2 h-2"></div>
+                            <div className="bg-white rounded-full w-5 h-2" />
+                            <div className="bg-white/50 rounded-full w-2 h-2" />
+                            <div className="bg-white/50 rounded-full w-2 h-2" />
                         </div>
                     </div>
                 </div>

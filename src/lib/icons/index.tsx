@@ -1,6 +1,6 @@
 export function GoogleIconColor({ size = 24 }: { size?: number }) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" height={size} width={size} viewBox="0 0 24 24" aria-hidden="true">
+        <svg aria-hidden="true" height={size} viewBox="0 0 24 24" width={size} xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                 fill="#4285F4"
@@ -23,7 +23,7 @@ export function GoogleIconColor({ size = 24 }: { size?: number }) {
 }
 export function ShieldSlash({ size = 24 }: { size?: number }) {
     return (
-        <svg width={size} height={size} viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg fill="none" height={size} viewBox="0 0 30 31" width={size} xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M2.54453 7.0217C1.75563 14.4622 4.17503 20.012 7.08693 23.7301C8.59224 25.6521 10.2283 27.0846 11.6202 28.0426C12.3156 28.5213 12.9602 28.8885 13.5075 29.1399C14.0133 29.3723 14.5543 29.5625 15.0005 29.5625C15.4466 29.5625 15.9877 29.3723 16.4934 29.1399C17.0407 28.8885 17.6853 28.5213 18.3807 28.0426C19.2543 27.4414 20.224 26.6532 21.1973 25.6744L19.8714 24.3486C18.9819 25.2437 18.1007 25.9592 17.3177 26.4981C16.6945 26.9271 16.1435 27.2373 15.7106 27.4362C15.4938 27.5358 15.3166 27.6029 15.1819 27.6436C15.071 27.6771 15.014 27.685 15.0005 27.6869C14.9869 27.685 14.9299 27.6771 14.819 27.6436C14.6844 27.6029 14.5071 27.5358 14.2903 27.4362C13.8574 27.2373 13.3065 26.9271 12.6832 26.4981C11.4378 25.6409 9.94383 24.3369 8.56309 22.574C6.11635 19.4498 4.02208 14.8841 4.29228 8.76945L2.54453 7.0217Z"
                 fill="currentColor"
@@ -33,68 +33,75 @@ export function ShieldSlash({ size = 24 }: { size?: number }) {
                 fill="currentColor"
             />
             <path
-                fillRule="evenodd"
                 clipRule="evenodd"
                 d="M25.5869 27.4129L1.21191 3.03786L2.53774 1.71204L26.9127 26.087L25.5869 27.4129Z"
                 fill="currentColor"
+                fillRule="evenodd"
             />
         </svg>
     );
 }
 export function EyeSlash({ size = 24 }: { size?: number }) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <svg fill="none" height={size} viewBox="0 0 24 24" width={size} xmlns="http://www.w3.org/2000/svg">
             <path
                 d="m14.532 9.472-5.06 5.06a3.576 3.576 0 1 1 5.06-5.06Z"
                 stroke="currentColor"
-                strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"></path>
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+            />
             <path
                 d="M17.82 5.77C16.07 4.45 14.07 3.73 12 3.73c-3.53 0-6.82 2.08-9.11 5.68-.9 1.41-.9 3.78 0 5.19.79 1.24 1.71 2.31 2.71 3.17"
                 stroke="currentColor"
-                strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"></path>
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+            />
             <path
-                opacity=".4"
                 d="M8.422 19.53c1.14.48 2.35.74 3.58.74 3.53 0 6.82-2.08 9.11-5.68.9-1.41.9-3.78 0-5.19-.33-.52-.69-1.01-1.06-1.47"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"></path>
-            <path
                 opacity=".4"
-                d="M15.511 12.7a3.565 3.565 0 0 1-2.82 2.82"
                 stroke="currentColor"
-                strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"></path>
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+            />
+            <path
+                d="M15.511 12.7a3.565 3.565 0 0 1-2.82 2.82"
+                opacity=".4"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+            />
             <path
                 d="M9.47 14.531 2 22.001M22.001 2l-7.47 7.47"
                 stroke="currentColor"
-                strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"></path>
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+            />
         </svg>
     );
 }
 export function Eye({ size = 24 }: { size?: number }) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <svg fill="none" height={size} viewBox="0 0 24 24" width={size} xmlns="http://www.w3.org/2000/svg">
             <path
-                opacity=".4"
                 d="M15.582 12.002c0 1.98-1.6 3.58-3.58 3.58s-3.58-1.6-3.58-3.58 1.6-3.58 3.58-3.58 3.58 1.6 3.58 3.58Z"
+                opacity=".4"
                 stroke="currentColor"
-                strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"></path>
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+            />
             <path
                 d="M12 20.269c3.53 0 6.82-2.08 9.11-5.68.9-1.41.9-3.78 0-5.19-2.29-3.6-5.58-5.68-9.11-5.68-3.53 0-6.82 2.08-9.11 5.68-.9 1.41-.9 3.78 0 5.19 2.29 3.6 5.58 5.68 9.11 5.68Z"
                 stroke="currentColor"
-                strokeWidth="1.5"
                 strokeLinecap="round"
-                strokeLinejoin="round"></path>
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+            />
         </svg>
     );
 }

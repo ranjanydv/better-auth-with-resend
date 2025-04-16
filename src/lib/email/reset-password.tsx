@@ -7,6 +7,7 @@ interface BetterAuthResetPasswordEmailProps {
 
 export const ResetPasswordEmail = ({ username, resetLink }: BetterAuthResetPasswordEmailProps) => {
     const previewText = `Reset your password`;
+
     return (
         <Html>
             <Head />
@@ -19,19 +20,20 @@ export const ResetPasswordEmail = ({ username, resetLink }: BetterAuthResetPassw
                         </Heading>
                         <Text className="text-[14px] text-black leading-[24px]">Hello {username},</Text>
                         <Text className="text-[14px] text-black leading-[24px]">
-                            We received a request to reset your password for your Account. If you didn&apos;t make this request, you can safely
-                            ignore this email.
+                            We received a request to reset your password for your Account. If you didn&apos;t make this request, you can safely ignore
+                            this email.
                         </Text>
                         <Section className="mt-[32px] mb-[32px] text-center">
                             <Button
                                 className="bg-[#000000] px-5 py-3 rounded font-semibold text-[12px] text-white text-center no-underline"
-                                href={resetLink}>
+                                href={resetLink}
+                            >
                                 Reset Password
                             </Button>
                         </Section>
                         <Text className="text-[14px] text-black leading-[24px]">
                             Or copy and paste this URL into your browser:{' '}
-                            <Link href={resetLink} className="text-blue-600 no-underline">
+                            <Link className="text-blue-600 no-underline" href={resetLink}>
                                 {resetLink}
                             </Link>
                         </Text>
@@ -48,5 +50,6 @@ export const ResetPasswordEmail = ({ username, resetLink }: BetterAuthResetPassw
 
 export function reactResetPasswordEmail(props: BetterAuthResetPasswordEmailProps) {
     console.log(props);
+
     return <ResetPasswordEmail {...props} />;
 }

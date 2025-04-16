@@ -1,37 +1,40 @@
 import React from 'react';
-import { signup } from './action';
 import Link from 'next/link';
+
+import { signup } from './action';
 const page = () => {
     return (
         <form action={signup}>
             <div className="flex flex-col justify-center items-center gap-4 h-screen">
                 <input
-                    type="text"
+                    required
+                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="name"
                     placeholder="Name"
-                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+                    type="text"
                 />
                 <input
-                    type="email"
+                    required
+                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="email"
                     placeholder="Email"
-                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+                    type="email"
                 />
                 <input
-                    type="password"
+                    required
+                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     name="password"
                     placeholder="Password"
-                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
+                    type="password"
                 />
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg text-white transition-colors">
+                <button className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg text-white transition-colors" type="submit">
                     Signup
                 </button>
                 <div>
                     Already have an account?
-                    <Link className='ml-2 text-blue-500' href="/signin">Sign in</Link>
+                    <Link className="ml-2 text-blue-500" href="/signin">
+                        Sign in
+                    </Link>
                 </div>
             </div>
         </form>

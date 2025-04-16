@@ -1,22 +1,21 @@
-"use server";
+'use server';
 
-import { auth } from "@/lib/auth";
+import { auth } from '@/lib/auth';
 
- 
 export const signup = async (formData: FormData) => {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     const name = formData.get('name') as string;
-    
+
     await auth.api.signUpEmail({
         body: {
             name,
             email,
-            password
+            password,
         },
-        asResponse: true
+        asResponse: true,
     });
-    
+
     // Don't return the response
 };
 // export const signup = async (formData: FormData) => {
@@ -24,7 +23,7 @@ export const signup = async (formData: FormData) => {
 //     const password = formData.get('password') as string;
 //     const name = formData.get('name') as string;
 //     const image = formData.get('image') as string || '';
-    
+
 //     const { data, error } = await signUp.email({
 //         email, // user email address
 //         password, // user password -> min 8 characters by default
