@@ -63,6 +63,9 @@
   "pnpm": {
     "overrides": {
       "prettier": "^3"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   }
 }
