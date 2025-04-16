@@ -28,7 +28,7 @@ const DashboardPage = () => {
     }
 
     if (error) {
-        return <div className="flex justify-center items-center h-screen text-red-500">Error: {error.message}</div>;
+        return <div className="flex justify-center items-center h-screen text-red-500">Error: {JSON.stringify(error, null, 2)}</div>;
     }
 
     return (
