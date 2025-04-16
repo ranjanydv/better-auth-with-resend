@@ -14,7 +14,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
     }
 
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-background min-h-screen">
             <div className="mx-auto sm:px-6 lg:px-8 py-6 max-w-7xl">{children}</div>
         </div>
     );
