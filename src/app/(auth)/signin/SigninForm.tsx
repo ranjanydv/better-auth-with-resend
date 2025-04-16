@@ -1,4 +1,4 @@
-import { Mail } from 'lucide-react';
+import { Mail, Github } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createAuthClient } from 'better-auth/client';
@@ -70,11 +70,15 @@ export default function Login() {
                         <h1 className="mb-2 font-bold text-3xl">Login to your Account</h1>
                         <p className="text-muted-foreground">Welcome back! Select method to log in:</p>
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center items-center gap-4">
                         {/* Google Login Button */}
-                        <Button className="mb-8" variant="outline">
+                        <Button className="mb-8" variant="outline" onClick={() => toast.message('Coming Soon')}>
                             <GoogleIconColor />
                             Google
+                        </Button>
+                        <Button className="mb-8" variant="outline" onClick={signInWithGithub}>
+                            <Github />
+                            Github
                         </Button>
                     </div>
                     {/* Divider */}
