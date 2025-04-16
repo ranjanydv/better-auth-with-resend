@@ -1,11 +1,13 @@
 "use client"
-import { Mail, Github,User } from 'lucide-react';
+import { Mail, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createAuthClient } from 'better-auth/client';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import PasswordInput from '@/components/custom/password-input';
 import { Button } from '@/components/ui/button';
@@ -14,53 +16,52 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { GoogleIconColor, ShieldSlash } from '@/lib/icons';
-
+import { signupSchema, type SignupFormData } from './schema';
 import { signup } from './action';
 
 export default function Register() {
     const authClient = createAuthClient();
     const router = useRouter();
-    const [error, setError] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
 
-    // async function clientAction(formData: FormData) {
-    //     try {
-    //         setIsLoading(true);
-    //         setError(null);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+    } = useForm<SignupFormData>({
+        resolver: zodResolver(signupSchema),
+        defaultValues: {
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        },
+    });
 
-    //         const result = await signup(formData);
+    const onSubmit = async (data: SignupFormData) => {
+        try {
+            setIsLoading(true);
+            const formData = new FormData();
+            formData.append('name', data.name);
+            formData.append('email', data.email);
+            formData.append('password', data.password);
+            formData.append('confirm-password', data.confirmPassword);
 
-    //         if (result.success) {
-    //             router.push(result.redirectTo);
-    //         } else {
-    //             // Handle different error types with specific messages
-    //             console.log('🚀 ~ page.tsx:23 ~ clientAction ~ result.error:', result.error);
-    //             switch (result.error) {
-    //                 case 'auth-failed':
-    //                     toast.error('Invalid Credentials');
-    //                     setError('Invalid email or password');
-    //                     break;
-    //                 case 'server-error':
-    //                     toast.error('Something went wrong', { description: 'Please try again' });
-    //                     setError('Server error occurred. Please try again later.');
-    //                     break;
-    //                 default:
-    //                     toast.error('Something went wrong', { description: 'Please try again' });
-    //                     setError(`Authentication failed: ${result.error}`);
-    //             }
-    //         }
-    //     } catch (e) {
-    //         setError('An unexpected error occurred. Please try again.');
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // }
-
-    // const signInWithGithub = async () => {
-    //     await authClient.signIn.social({
-    //         provider: 'github',
-    //     });
-    // };
+            const result = await signup(formData);
+            
+            if (result?.success) {
+                toast.success('Account created successfully! Please check your email to verify your account.');
+                router.push('/signin');
+            } else {
+                toast.error(result?.message || 'Something went wrong');
+            }
+        } catch (error) {
+            toast.error('An unexpected error occurred');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div className="flex justify-center items-center min-h-[calc(100vh-50px)]">
@@ -72,36 +73,54 @@ export default function Register() {
                         <p className="text-muted-foreground">Unlock all features!</p>
                     </div>
                     {/* Register Form */}
-                    <form action={signup} className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="space-y-2">
-                                <Input
-                                    required
-                                    className="pl-10"
-                                    name="name"
-                                    placeholder="Name"
-                                    startIcon={<User strokeWidth={1.4} />}
-                                    type="text"
-                                />
+                            <Input
+                                {...register('name')}
+                                required
+                                className="pl-10"
+                                placeholder="Name"
+                                startIcon={<User strokeWidth={1.4} />}
+                                type="text"
+                            />
+                            {errors.name && (
+                                <p className="text-red-500 text-sm">{errors.name.message}</p>
+                            )}
                         </div>
                         <div className="space-y-2">
-                                <Input
-                                    required
-                                    className="pl-10"
-                                    name="email"
-                                    placeholder="Email"
-                                    startIcon={<Mail strokeWidth={1.4} />}
-                                    type="email"
-                                />
+                            <Input
+                                {...register('email')}
+                                required
+                                className="pl-10"
+                                placeholder="Email"
+                                startIcon={<Mail strokeWidth={1.4} />}
+                                type="email"
+                            />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm">{errors.email.message}</p>
+                            )}
                         </div>
                         <div className="space-y-2">
-                            <div className="relative">
-                                <PasswordInput showStrengthIndicator name="password" startIcon={<ShieldSlash />} />
-                            </div>
+                            <PasswordInput
+                                {...register('password')}
+                                showStrengthIndicator
+                                name="password"
+                                startIcon={<ShieldSlash />}
+                            />
+                            {errors.password && (
+                                <p className="text-red-500 text-sm">{errors.password.message}</p>
+                            )}
                         </div>
                         <div className="space-y-2">
-                            <div className="relative">
-                                <PasswordInput name="confirm-password" placeholder="Confirm Password" startIcon={<ShieldSlash />} />
-                            </div>
+                            <PasswordInput
+                                {...register('confirmPassword')}
+                                name="confirmPassword"
+                                placeholder="Confirm Password"
+                                startIcon={<ShieldSlash />}
+                            />
+                            {errors.confirmPassword && (
+                                <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+                            )}
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
@@ -114,14 +133,18 @@ export default function Register() {
                                 Forgot Password?
                             </Link>
                         </div>
-                        <Button aria-disabled={isLoading} className="w-full" disabled={isLoading} type="submit">
-                            LOG IN
+                        <Button 
+                            type="submit"
+                            className="w-full" 
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Creating account...' : 'Create Account'}
                         </Button>
                     </form>
                     <p className="mt-6 text-sm text-center">
                         Already have an account?{' '}
                         <Link className="text-primary hover:underline" href="/signin">
-                            SIGN UP
+                            Sign in
                         </Link>
                     </p>
                 </div>

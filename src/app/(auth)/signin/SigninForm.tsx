@@ -1,3 +1,5 @@
+"use client";
+
 import { Mail, Github } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -5,6 +7,8 @@ import { createAuthClient } from 'better-auth/client';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import PasswordInput from '@/components/custom/password-input';
 import { Button } from '@/components/ui/button';
@@ -13,57 +17,66 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { GoogleIconColor, ShieldSlash } from '@/lib/icons';
-
+import { signinSchema, type SigninFormData } from './schema';
 import { signin } from './action';
 
 export default function Login() {
     const authClient = createAuthClient();
     const router = useRouter();
-    const [error, setError] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
 
-    async function clientAction(formData: FormData) {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SigninFormData>({
+        resolver: zodResolver(signinSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+    });
+
+    const onSubmit = async (data: SigninFormData) => {
         try {
             setIsLoading(true);
-            setError(null);
+            const formData = new FormData();
+            formData.append('email', data.email);
+            formData.append('password', data.password);
 
             const result = await signin(formData);
 
             if (result.success) {
-                router.push(result.redirectTo);
+                toast.success('Logged in successfully');
+                router.push(result.redirectTo || '/dashboard');
             } else {
-                // Handle different error types with specific messages
-                console.log('🚀 ~ page.tsx:23 ~ clientAction ~ result.error:', result.error);
-                switch (result.error) {
-                    case 'auth-failed':
-                        toast.error('Invalid Credentials');
-                        setError('Invalid email or password');
-                        break;
-                    case 'server-error':
-                        toast.error('Something went wrong', { description: 'Please try again' });
-                        setError('Server error occurred. Please try again later.');
-                        break;
-                    default:
-                        toast.error('Something went wrong', { description: 'Please try again' });
-                        setError(`Authentication failed: ${result.error}`);
-                }
+                toast.error(result.message || 'Invalid credentials');
             }
-        } catch (e) {
-            setError('An unexpected error occurred. Please try again.');
+        } catch (error) {
+            toast.error('An unexpected error occurred');
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const signInWithGithub = async () => {
-        await authClient.signIn.social({
-            provider: 'github',
-        });
+        try {
+            await authClient.signIn.social({
+                provider: 'github',
+            });
+        } catch (error) {
+            toast.error('Failed to sign in with GitHub');
+        }
     };
+
     const signInWithGoogle = async () => {
-        await authClient.signIn.social({
-            provider: 'google',
-        });
+        try {
+            await authClient.signIn.social({
+                provider: 'google',
+            });
+        } catch (error) {
+            toast.error('Failed to sign in with Google');
+        }
     };
 
     return (
@@ -93,23 +106,29 @@ export default function Login() {
                         <div className="flex-grow border-gray-200 border-t" />
                     </div>
                     {/* Login Form */}
-                    <form action={clientAction} className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="space-y-2">
-                            <div className="relative">
-                                <Input
-                                    required
-                                    className="pl-10"
-                                    name="email"
-                                    placeholder="Email"
-                                    startIcon={<Mail strokeWidth={1.4} />}
-                                    type="email"
-                                />
-                            </div>
+                            <Input
+                                {...register('email')}
+                                required
+                                className="pl-10"
+                                placeholder="Email"
+                                startIcon={<Mail strokeWidth={1.4} />}
+                                type="email"
+                            />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm">{errors.email.message}</p>
+                            )}
                         </div>
                         <div className="space-y-2">
-                            <div className="relative">
-                                <PasswordInput name="password" startIcon={<ShieldSlash />} />
-                            </div>
+                            <PasswordInput
+                                {...register('password')}
+                                name="password"
+                                startIcon={<ShieldSlash />}
+                            />
+                            {errors.password && (
+                                <p className="text-red-500 text-sm">{errors.password.message}</p>
+                            )}
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
@@ -122,8 +141,12 @@ export default function Login() {
                                 Forgot Password?
                             </Link>
                         </div>
-                        <Button aria-disabled={isLoading} className="w-full" disabled={isLoading} type="submit">
-                            LOG IN
+                        <Button 
+                            type="submit"
+                            className="w-full" 
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Logging in...' : 'Log in'}
                         </Button>
                     </form>
                     <p className="mt-6 text-sm text-center">

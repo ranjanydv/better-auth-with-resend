@@ -1,42 +1,53 @@
 'use server';
 
-import { headers } from 'next/headers';
-
 import { auth } from '@/lib/auth';
+import { signinSchema } from './schema';
 
-type SignInResult = { success: true; redirectTo: string } | { success: false; error: string };
-
-export const signin = async (formData: FormData): Promise<SignInResult> => {
-    const email = formData.get('email');
-    const password = formData.get('password');
-
-    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
-        return { success: false, error: 'auth-failed' };
-    }
-
+export const signin = async (formData: FormData) => {
     try {
-        const result = await auth.api.signInEmail({
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+
+        // Validate the form data
+        const result = signinSchema.safeParse({
+            email,
+            password,
+        });
+
+        if (!result.success) {
+            return {
+                success: false,
+                message: result.error.errors[0].message,
+            };
+        }
+
+        // Attempt to sign in the user
+        const response = await auth.api.signInEmail({
             body: {
                 email,
                 password,
             },
-            headers: await headers(),
+            asResponse: true,
         });
 
-        if (result?.user) {
-            return { success: true, redirectTo: '/dashboard' };
-        }
-        if (!result?.user?.emailVerified) {
-            return { success: false, error: 'email-not-verified' };
+        if (!response.ok) {
+            const errorData = await response.json();
+            return {
+                success: false,
+                message: errorData.message || 'Invalid credentials',
+            };
         }
 
-        return { success: false, error: 'auth-failed' };
+        return {
+            success: true,
+            message: 'Logged in successfully',
+            redirectTo: '/dashboard',
+        };
     } catch (error) {
-        console.error('Authentication error:', error);
-        if (error instanceof Error && error.message.includes('auth')) {
-            return { success: false, error: 'auth-failed' };
-        }
-
-        return { success: false, error: 'server-error' };
+        console.error('Signin error:', error);
+        return {
+            success: false,
+            message: 'An unexpected error occurred',
+        };
     }
 };
