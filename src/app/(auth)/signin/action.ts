@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+
 import { signinSchema } from './schema';
 
 export const signin = async (formData: FormData) => {
@@ -32,6 +33,7 @@ export const signin = async (formData: FormData) => {
 
         if (!response.ok) {
             const errorData = await response.json();
+
             return {
                 success: false,
                 message: errorData.message || 'Invalid credentials',
@@ -45,6 +47,7 @@ export const signin = async (formData: FormData) => {
         };
     } catch (error) {
         console.error('Signin error:', error);
+
         return {
             success: false,
             message: 'An unexpected error occurred',

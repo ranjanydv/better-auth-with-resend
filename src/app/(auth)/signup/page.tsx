@@ -1,8 +1,6 @@
 import React from 'react';
-import Link from 'next/link';
 
-import { signup } from './action';
-import Register from './RegisterForm'
+import Register from './RegisterForm';
 const page = () => {
     return (
         // <form action={signup}>

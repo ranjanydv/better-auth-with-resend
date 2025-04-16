@@ -1,13 +1,12 @@
-"use client"
+'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { createAuthClient } from 'better-auth/client';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import PasswordInput from '@/components/custom/password-input';
 import { Button } from '@/components/ui/button';
@@ -15,12 +14,12 @@ import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { GoogleIconColor, ShieldSlash } from '@/lib/icons';
-import { signupSchema, type SignupFormData } from './schema';
+import { ShieldSlash } from '@/lib/icons';
+
 import { signup } from './action';
+import { signupSchema, type SignupFormData } from './schema';
 
 export default function Register() {
-    const authClient = createAuthClient();
     const router = useRouter();
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -28,7 +27,6 @@ export default function Register() {
         register,
         handleSubmit,
         formState: { errors },
-        watch,
     } = useForm<SignupFormData>({
         resolver: zodResolver(signupSchema),
         defaultValues: {
@@ -43,13 +41,14 @@ export default function Register() {
         try {
             setIsLoading(true);
             const formData = new FormData();
+
             formData.append('name', data.name);
             formData.append('email', data.email);
             formData.append('password', data.password);
             formData.append('confirm-password', data.confirmPassword);
 
             const result = await signup(formData);
-            
+
             if (result?.success) {
                 toast.success('Account created successfully! Please check your email to verify your account.');
                 router.push('/signin');
@@ -57,6 +56,8 @@ export default function Register() {
                 toast.error(result?.message || 'Something went wrong');
             }
         } catch (error) {
+            console.log('🚀 ~ RegisterForm.tsx:59 ~ onSubmit ~ error:', error);
+
             toast.error('An unexpected error occurred');
         } finally {
             setIsLoading(false);
@@ -73,7 +74,7 @@ export default function Register() {
                         <p className="text-muted-foreground">Unlock all features!</p>
                     </div>
                     {/* Register Form */}
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                         <div className="space-y-2">
                             <Input
                                 {...register('name')}
@@ -83,9 +84,7 @@ export default function Register() {
                                 startIcon={<User strokeWidth={1.4} />}
                                 type="text"
                             />
-                            {errors.name && (
-                                <p className="text-red-500 text-sm">{errors.name.message}</p>
-                            )}
+                            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
                         </div>
                         <div className="space-y-2">
                             <Input
@@ -96,20 +95,11 @@ export default function Register() {
                                 startIcon={<Mail strokeWidth={1.4} />}
                                 type="email"
                             />
-                            {errors.email && (
-                                <p className="text-red-500 text-sm">{errors.email.message}</p>
-                            )}
+                            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                         </div>
                         <div className="space-y-2">
-                            <PasswordInput
-                                {...register('password')}
-                                showStrengthIndicator
-                                name="password"
-                                startIcon={<ShieldSlash />}
-                            />
-                            {errors.password && (
-                                <p className="text-red-500 text-sm">{errors.password.message}</p>
-                            )}
+                            <PasswordInput {...register('password')} showStrengthIndicator name="password" startIcon={<ShieldSlash />} />
+                            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                         </div>
                         <div className="space-y-2">
                             <PasswordInput
@@ -118,9 +108,7 @@ export default function Register() {
                                 placeholder="Confirm Password"
                                 startIcon={<ShieldSlash />}
                             />
-                            {errors.confirmPassword && (
-                                <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
-                            )}
+                            {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
@@ -133,11 +121,7 @@ export default function Register() {
                                 Forgot Password?
                             </Link>
                         </div>
-                        <Button 
-                            type="submit"
-                            className="w-full" 
-                            disabled={isLoading}
-                        >
+                        <Button className="w-full" disabled={isLoading} type="submit">
                             {isLoading ? 'Creating account...' : 'Create Account'}
                         </Button>
                     </form>
@@ -152,7 +136,7 @@ export default function Register() {
                 <div className="hidden md:block bg-primary p-12 w-1/2">
                     <div className="flex flex-col justify-center items-center h-full">
                         <div className="flex justify-center items-center mt-auto mb-8">
-                            <div className='relative flex justify-center items-center bg-gradient-to-b from-white/20 via-primary to-primary p-4 rounded-full size-96 overflow-hidden'>
+                            <div className="relative flex justify-center items-center bg-gradient-to-b from-white/20 via-primary to-primary p-4 rounded-full size-96 overflow-hidden">
                                 <div className="relative size-72">
                                     <Image
                                         fill
@@ -163,7 +147,7 @@ export default function Register() {
                                     />
                                 </div>
                                 <div className="absolute inset-0 flex justify-center items-center">
-                                    <div className="bg-gradient-to-b from-white/50 to-white/30 rounded-full size-[calc(100%-3rem)]"/>
+                                    <div className="bg-gradient-to-b from-white/50 to-white/30 rounded-full size-[calc(100%-3rem)]" />
                                 </div>
                             </div>
                         </div>

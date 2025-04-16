@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Mail, Github } from 'lucide-react';
 import Image from 'next/image';
@@ -17,6 +17,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { GoogleIconColor, ShieldSlash } from '@/lib/icons';
+
 import { signinSchema, type SigninFormData } from './schema';
 import { signin } from './action';
 
@@ -41,6 +42,7 @@ export default function Login() {
         try {
             setIsLoading(true);
             const formData = new FormData();
+
             formData.append('email', data.email);
             formData.append('password', data.password);
 
@@ -53,6 +55,8 @@ export default function Login() {
                 toast.error(result.message || 'Invalid credentials');
             }
         } catch (error) {
+            console.log('🚀 ~ SigninForm.tsx:58 ~ onSubmit ~ error:', error);
+
             toast.error('An unexpected error occurred');
         } finally {
             setIsLoading(false);
@@ -65,6 +69,8 @@ export default function Login() {
                 provider: 'github',
             });
         } catch (error) {
+            console.log('🚀 ~ SigninForm.tsx:72 ~ signInWithGithub ~ error:', error);
+
             toast.error('Failed to sign in with GitHub');
         }
     };
@@ -75,6 +81,8 @@ export default function Login() {
                 provider: 'google',
             });
         } catch (error) {
+            console.log('🚀 ~ SigninForm.tsx:84 ~ signInWithGoogle ~ error:', error);
+
             toast.error('Failed to sign in with Google');
         }
     };
@@ -106,7 +114,7 @@ export default function Login() {
                         <div className="flex-grow border-gray-200 border-t" />
                     </div>
                     {/* Login Form */}
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                         <div className="space-y-2">
                             <Input
                                 {...register('email')}
@@ -116,19 +124,11 @@ export default function Login() {
                                 startIcon={<Mail strokeWidth={1.4} />}
                                 type="email"
                             />
-                            {errors.email && (
-                                <p className="text-red-500 text-sm">{errors.email.message}</p>
-                            )}
+                            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                         </div>
                         <div className="space-y-2">
-                            <PasswordInput
-                                {...register('password')}
-                                name="password"
-                                startIcon={<ShieldSlash />}
-                            />
-                            {errors.password && (
-                                <p className="text-red-500 text-sm">{errors.password.message}</p>
-                            )}
+                            <PasswordInput {...register('password')} name="password" startIcon={<ShieldSlash />} />
+                            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
@@ -141,11 +141,7 @@ export default function Login() {
                                 Forgot Password?
                             </Link>
                         </div>
-                        <Button 
-                            type="submit"
-                            className="w-full" 
-                            disabled={isLoading}
-                        >
+                        <Button className="w-full" disabled={isLoading} type="submit">
                             {isLoading ? 'Logging in...' : 'Log in'}
                         </Button>
                     </form>
@@ -159,7 +155,7 @@ export default function Login() {
                 <div className="hidden md:block bg-primary p-12 w-1/2">
                     <div className="flex flex-col justify-center items-center h-full">
                         <div className="flex justify-center items-center mt-auto mb-8">
-                            <div className='relative flex justify-center items-center bg-gradient-to-b from-white/20 via-primary to-primary p-4 rounded-full size-96 overflow-hidden'>
+                            <div className="relative flex justify-center items-center bg-gradient-to-b from-white/20 via-primary to-primary p-4 rounded-full size-96 overflow-hidden">
                                 <div className="relative size-72">
                                     <Image
                                         fill
@@ -170,7 +166,7 @@ export default function Login() {
                                     />
                                 </div>
                                 <div className="absolute inset-0 flex justify-center items-center">
-                                    <div className="bg-gradient-to-b from-white/50 to-white/30 rounded-full size-[calc(100%-3rem)]"/>
+                                    <div className="bg-gradient-to-b from-white/50 to-white/30 rounded-full size-[calc(100%-3rem)]" />
                                 </div>
                             </div>
                         </div>

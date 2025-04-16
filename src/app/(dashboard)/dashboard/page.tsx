@@ -6,7 +6,7 @@ import { signOut, useSession } from '@/lib/auth-client';
 
 const DashboardPage = () => {
     const router = useRouter();
-    const { data: session, isPending, error, refetch } = useSession();
+    const { data: session, isPending, error } = useSession();
 
     useEffect(() => {
         if (!isPending && !session && !error) {

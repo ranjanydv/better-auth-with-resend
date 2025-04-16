@@ -1,11 +1,12 @@
 'use client';
 
 import { CheckIcon, XIcon } from 'lucide-react';
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
 import { AnimatePresence, MotionDiv, MotionLi } from '@/utilities/motion-components';
+
 import { AnimatedEyeIcon } from './animated-eye-button';
 
 interface PasswordInputProps extends Omit<UseFormRegisterReturn, 'onChange' | 'onBlur'> {
@@ -21,7 +22,7 @@ interface PasswordInputProps extends Omit<UseFormRegisterReturn, 'onChange' | 'o
 export default function PasswordInput({
     startIcon,
     showStrengthIndicator = false,
-    placeholder = "Password",
+    placeholder = 'Password',
     formTouched = false,
     onChange,
     onBlur,
@@ -33,27 +34,10 @@ export default function PasswordInput({
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [isDirty, setIsDirty] = useState<boolean>(false);
-    const [wasAutofilled, setWasAutofilled] = useState<boolean>(false);
-    
+
     const inputRef = useRef<HTMLInputElement>(null);
 
-    // Check for autofill on initial load
-    useEffect(() => {
-        const checkAutofill = () => {
-            if (inputRef.current && inputRef.current.value) {
-                setPassword(inputRef.current.value);
-                setWasAutofilled(true);
-            }
-        };
-
-        checkAutofill();
-        
-        const timer = setTimeout(checkAutofill, 500);
-        return () => clearTimeout(timer);
-    }, []);
-
-    // Consider field active when any of these conditions are true
-    const isFieldActive = isDirty || wasAutofilled || formTouched;
+    const isFieldActive = isDirty || formTouched;
 
     const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
@@ -82,6 +66,7 @@ export default function PasswordInput({
         if (score <= 1) return 'bg-red-500';
         if (score <= 2) return 'bg-orange-500';
         if (score === 3) return 'bg-amber-500';
+
         return 'bg-emerald-500';
     };
 
@@ -89,6 +74,7 @@ export default function PasswordInput({
         if (score === 0) return 'Enter a password';
         if (score <= 2) return 'Weak password';
         if (score === 3) return 'Medium password';
+
         return 'Strong password';
     };
 
@@ -102,23 +88,23 @@ export default function PasswordInput({
 
     // Animation variants
     const containerVariants = {
-        hidden: { 
+        hidden: {
             height: 0,
             opacity: 0,
-            marginTop: 0
+            marginTop: 0,
         },
-        visible: { 
-            height: "auto",
+        visible: {
+            height: 'auto',
             opacity: 1,
             marginTop: 16,
             transition: {
                 height: {
-                    type: "spring",
+                    type: 'spring',
                     stiffness: 300,
-                    damping: 30
+                    damping: 30,
                 },
-                opacity: { duration: 0.2 }
-            }
+                opacity: { duration: 0.2 },
+            },
         },
         exit: {
             height: 0,
@@ -126,31 +112,31 @@ export default function PasswordInput({
             marginTop: 0,
             transition: {
                 height: {
-                    type: "spring",
+                    type: 'spring',
                     stiffness: 300,
-                    damping: 30
+                    damping: 30,
                 },
-                opacity: { duration: 0.2 }
-            }
-        }
+                opacity: { duration: 0.2 },
+            },
+        },
     };
 
     const progressVariants = {
         hidden: {
             opacity: 0,
             height: 0,
-            marginTop: 0
+            marginTop: 0,
         },
         visible: {
             opacity: 1,
             height: 4,
             marginTop: 12,
             transition: {
-                type: "spring",
+                type: 'spring',
                 stiffness: 300,
-                damping: 30
-            }
-        }
+                damping: 30,
+            },
+        },
     };
 
     return (
@@ -169,14 +155,14 @@ export default function PasswordInput({
                         placeholder={placeholder}
                         startIcon={startIcon}
                         type={isVisible ? 'text' : 'password'}
+                        onBlur={(e) => {
+                            setIsFocused(false);
+                            onBlur?.(e);
+                        }}
                         onChange={handleChange}
                         onFocus={(e) => {
                             setIsFocused(true);
                             onFocus?.(e);
-                        }}
-                        onBlur={(e) => {
-                            setIsFocused(false);
-                            onBlur?.(e);
                         }}
                     />
                     <button
@@ -197,22 +183,22 @@ export default function PasswordInput({
                     <AnimatePresence>
                         {isFieldActive && (
                             <MotionDiv
+                                animate="visible"
                                 aria-label="Password strength"
                                 aria-valuemax={4}
                                 aria-valuemin={0}
                                 aria-valuenow={strengthScore}
                                 className="bg-border rounded-full w-full overflow-hidden"
-                                role="progressbar"
-                                initial="hidden"
-                                animate="visible"
                                 exit="hidden"
+                                initial="hidden"
+                                role="progressbar"
                                 variants={progressVariants}
                             >
                                 <MotionDiv
+                                    animate={{ width: `${(strengthScore / 4) * 100}%` }}
                                     className={`h-full ${getStrengthColor(strengthScore)}`}
                                     initial={{ width: 0 }}
-                                    animate={{ width: `${(strengthScore / 4) * 100}%` }}
-                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                                 />
                             </MotionDiv>
                         )}
@@ -223,11 +209,11 @@ export default function PasswordInput({
                         {isFocused && isFieldActive && (
                             <MotionDiv
                                 key="requirements"
-                                initial="hidden"
                                 animate="visible"
-                                exit="exit"
-                                variants={containerVariants}
                                 className="overflow-hidden"
+                                exit="exit"
+                                initial="hidden"
+                                variants={containerVariants}
                             >
                                 {/* Password strength description */}
                                 <p className="mb-2 font-medium text-foreground text-sm" id={`${id}-description`}>
@@ -238,10 +224,10 @@ export default function PasswordInput({
                                 <ul aria-label="Password requirements" className="space-y-1.5">
                                     {strength.map((req, index) => (
                                         <MotionLi
-                                            key={index} 
+                                            key={index}
+                                            animate={{ opacity: 1, x: 0 }}
                                             className="flex items-center gap-2"
                                             initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: index * 0.05 }}
                                         >
                                             {req.met ? (

@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+
 import { signupSchema } from './schema';
 
 export const signup = async (formData: FormData) => {
@@ -37,6 +38,7 @@ export const signup = async (formData: FormData) => {
 
         if (!response.ok) {
             const errorData = await response.json();
+
             return {
                 success: false,
                 message: errorData.message || 'Failed to create account',
@@ -49,10 +51,10 @@ export const signup = async (formData: FormData) => {
         };
     } catch (error) {
         console.error('Signup error:', error);
+
         return {
             success: false,
             message: 'An unexpected error occurred',
         };
     }
 };
-
