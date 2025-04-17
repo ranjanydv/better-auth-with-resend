@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/lib/auth';
+
 import { DashboardLayoutClient } from './components/DashboardLayoutWrapper';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {

@@ -1,7 +1,9 @@
 'use client';
 
 import { Search } from 'lucide-react';
-// import { MobileSidebar } from "./MobileSidebar";
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,15 +13,10 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { authClient } from '@/lib/auth-client';
-import Image from 'next/image';
-
 import { signOut } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
-import { MenuIcon } from '@/lib/icons/Menu';
 import { PanelLeftCloseIcon } from '@/lib/icons/Panel';
-import { Input } from '@/components/ui/input';
 
-export const TopBar = ({ onToggleSidebar, isOpen }: { onToggleSidebar: () => void; isOpen: boolean }) => {
+export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
     const { data: session, isPending } = authClient.useSession();
     const router = useRouter();
 
@@ -45,9 +42,9 @@ export const TopBar = ({ onToggleSidebar, isOpen }: { onToggleSidebar: () => voi
                 <div className="relative flex-1 ml-4 lg:ml-0">
                     <Search className="top-1/2 left-3 absolute w-5 h-5 text-primary -translate-y-1/2 transform" />
                     <input
-                        type="text"
-                        placeholder="Search anything here..."
                         className="py-2 pr-4 pl-10 border border-input focus:border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-primary w-full text-primary"
+                        placeholder="Search anything here..."
+                        type="text"
                     />
                 </div>
             </div>
@@ -58,7 +55,7 @@ export const TopBar = ({ onToggleSidebar, isOpen }: { onToggleSidebar: () => voi
                         {isPending ? (
                             <div className="bg-white rounded-full w-8 h-8 animate-pulse" />
                         ) : (
-                            <Image src={session?.user?.image || `/logo.png`} alt="Profile" width={32} height={32} className="rounded-full w-8 h-8" />
+                            <Image alt="Profile" className="rounded-full w-8 h-8" height={32} src={session?.user?.image || `/logo.png`} width={32} />
                         )}
                         <span className="hidden lg:block font-medium text-primary text-sm">
                             {isPending ? 'Loading...' : session?.user?.name || 'Guest'}
@@ -71,7 +68,7 @@ export const TopBar = ({ onToggleSidebar, isOpen }: { onToggleSidebar: () => voi
                         <DropdownMenuItem>Settings</DropdownMenuItem>
                         <DropdownMenuItem>Billing</DropdownMenuItem>
                         <DropdownMenuSeparator className="bg-border" />
-                        <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
+                        <DropdownMenuItem className="text-red-600 cursor-pointer" onClick={handleSignOut}>
                             Log out
                         </DropdownMenuItem>
                     </DropdownMenuContent>

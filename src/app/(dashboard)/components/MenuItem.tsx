@@ -1,8 +1,9 @@
-import { Icon } from '@/components/shared/Icon';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+
+import { Icon } from '@/components/shared/Icon';
 
 interface MenuItemProps {
     item: {
@@ -23,13 +24,13 @@ const MenuItem = ({ item, isCollapsed }: MenuItemProps) => {
 
     const content = (
         <>
-            <Icon name={item.icon} className="w-5 h-5" />
+            <Icon className="w-5 h-5" name={item.icon} />
             {!isCollapsed && (
                 <>
                     <span className="flex-1 ml-3 text-left">{item.label}</span>
                     {hasSubmenu && (
                         <span className="ml-auto">
-                            <ChevronRight size={16} className={`transition-all duration-200 ease-in ${isOpen ? 'rotate-90' : ''}`} />
+                            <ChevronRight className={`transition-all duration-200 ease-in ${isOpen ? 'rotate-90' : ''}`} size={16} />
                         </span>
                     )}
                 </>
@@ -41,24 +42,26 @@ const MenuItem = ({ item, isCollapsed }: MenuItemProps) => {
         <div className="relative">
             {item.href ? (
                 <Link
-                    href={item.href}
                     className={`text-sm w-full flex items-center px-4 py-2 rounded-lg transition-colors duration-200 ease-in  ${
                         isActive ? 'text-white border border-primary bg-primary' : 'text-primary hover:bg-primary hover:text-white'
-                    }`}>
+                    }`}
+                    href={item.href}
+                >
                     {content}
                 </Link>
             ) : (
                 <button
-                    onClick={() => hasSubmenu && setIsOpen(!isOpen)}
                     className={`w-full flex items-center px-4 py-2 rounded-lg transition-colors duration-200 ease-in ${
                         isActive ? 'text-white border border-primary bg-primary' : 'text-primary hover:bg-primary hover:text-white'
-                    }`}>
+                    }`}
+                    onClick={() => hasSubmenu && setIsOpen(!isOpen)}
+                >
                     {content}
                 </button>
             )}
             {hasSubmenu && isOpen && !isCollapsed && (
                 <div className="space-y-1 mt-1 ml-4">
-                    {item.submenu && item.submenu.map((subItem) => <MenuItem key={subItem.label} item={subItem} isCollapsed={isCollapsed} />)}
+                    {item.submenu && item.submenu.map((subItem) => <MenuItem key={subItem.label} isCollapsed={isCollapsed} item={subItem} />)}
                 </div>
             )}
         </div>

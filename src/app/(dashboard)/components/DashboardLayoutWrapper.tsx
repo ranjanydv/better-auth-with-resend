@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import { TopBar } from './topbar';
 import { Sidebar } from './Sidebar';
-import { MobileSidebar } from './MobileSidebar';
 
 export function DashboardLayoutClient({ children }: { children: React.ReactNode }) {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+    // const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -30,7 +30,7 @@ export function DashboardLayoutClient({ children }: { children: React.ReactNode 
                 <Sidebar isCollapsed={isSidebarCollapsed} />
             </div>
             <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}`}>
-                <TopBar isOpen={!isSidebarCollapsed} onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)} />
+                <TopBar onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)} />
                 {/* <MobileSidebar isOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} /> */}
                 <main className="flex-1 p-8">{children}</main>
             </div>
