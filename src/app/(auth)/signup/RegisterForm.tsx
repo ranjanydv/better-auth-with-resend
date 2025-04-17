@@ -70,7 +70,7 @@ export default function Register() {
                 {/* Left Column - Login Form */}
                 <div className="flex flex-col p-8 md:p-12 lg:p-16 w-full md:w-1/2">
                     <div className="mb-8">
-                        <h1 className="mb-2 font-semibold text-3xl">Create your account</h1>
+                        <h1 className="mb-2 font-bold text-3xl">Create your account</h1>
                         <p className="text-muted-foreground">Unlock all features!</p>
                     </div>
                     {/* Register Form */}

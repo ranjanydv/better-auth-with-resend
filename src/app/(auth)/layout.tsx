@@ -14,8 +14,11 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
     }
 
     return (
-        <div className="bg-background min-h-screen">
-            <div className="mx-auto sm:px-6 lg:px-8 py-6 max-w-7xl">{children}</div>
-        </div>
+        <main className="h-screen min-h-screen max-h-screen overflow-hidden">
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-40 [background-size:40px_40px]" />
+            <div className="relative flex flex-col justify-center items-center">
+                <div className="mx-auto sm:px-6 lg:px-8 py-6 max-w-7xl">{children}</div>
+            </div>
+        </main>
     );
 }
