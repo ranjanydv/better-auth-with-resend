@@ -1,9 +1,12 @@
 'use client';
 
-import { Search } from 'lucide-react';
+import { Headset, LockIcon, LogOutIcon, Search } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
+import AlertDialogBox from '@/components/custom/AlertDialogBox';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,21 +15,29 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { authClient } from '@/lib/auth-client';
-import { signOut } from '@/lib/auth-client';
+import { authClient, signOut } from '@/lib/auth-client';
 import { PanelLeftCloseIcon } from '@/lib/icons/Panel';
+import ChangePassword from '@/app/(auth)/components/change-password/ChangePasswordForm';
+import { Button } from '@/components/ui/button';
 
 export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
     const { data: session, isPending } = authClient.useSession();
     const router = useRouter();
+    const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
+    const [isChangePasswordDialogOpen, setIsChangePasswordDialogOpen] = useState(false);
+    const [isSuccessOpen, setIsSuccessOpen] = useState(false);
 
     const handleSignOut = async () => {
         try {
-            await signOut();
-            router.push('/signin');
+            await signOut().then(() => {
+                router.push('/signin');
+            });
         } catch (error) {
             console.error('Error signing out:', error);
         }
+    };
+    const handleCloseSuccess = () => {
+        setIsSuccessOpen(false);
     };
 
     return (
@@ -62,17 +73,76 @@ export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => 
                         </span>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="bg-white border border-border w-56 text-primary">
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                        <DropdownMenuLabel>
+                            <div className="flex items-center gap-2">
+                                <Avatar>
+                                    <AvatarImage
+                                        src={session?.user?.image || `/logo.png`}
+                                        alt={isPending ? 'Loading...' : session?.user?.name || 'Guest'}
+                                    />
+                                    <AvatarFallback>NE</AvatarFallback>
+                                </Avatar>
+                                <div className="">
+                                    <p className="font-semibold text-primary">{isPending ? 'Loading...' : session?.user?.name || 'Guest'}</p>
+                                    <small className="font-medium text-gray-500 text-xs uppercase">
+                                        {isPending ? 'Loading...' : session?.user?.role || 'Guest'}
+                                    </small>
+                                </div>
+                            </div>
+                        </DropdownMenuLabel>
                         <DropdownMenuSeparator className="bg-border" />
-                        <DropdownMenuItem>Profile</DropdownMenuItem>
-                        <DropdownMenuItem>Settings</DropdownMenuItem>
-                        <DropdownMenuItem>Billing</DropdownMenuItem>
-                        <DropdownMenuSeparator className="bg-border" />
-                        <DropdownMenuItem className="text-red-600 cursor-pointer" onClick={handleSignOut}>
-                            Log out
+                        <DropdownMenuItem onClick={() => setIsChangePasswordDialogOpen(true)}>
+                            <LockIcon size={14} /> Change Password
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Headset size={14} /> Help & Support
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600 cursor-pointer">
+                            <button className="flex items-center gap-2 w-full" onClick={() => setIsLogoutDialogOpen(true)}>
+                                <LogOutIcon size={14} className="text-red-600" /> Log out
+                            </button>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+
+                <AlertDialogBox
+                    isOpen={isLogoutDialogOpen}
+                    onClose={() => setIsLogoutDialogOpen(false)}
+                    onAction={handleSignOut}
+                    title="Logout"
+                    description="Are you sure you want to logout? You'll need to sign in again to access your account."
+                    actionText="Logout"
+                    cancelText="Cancel"
+                />
+                {isChangePasswordDialogOpen && (
+                    <ChangePassword
+                        isOpen={isChangePasswordDialogOpen}
+                        onClose={() => setIsChangePasswordDialogOpen(false)}
+                        onSuccess={() => {
+                            setIsChangePasswordDialogOpen(false);
+                            setIsSuccessOpen(true);
+                            setTimeout(() => {
+                                setIsSuccessOpen(false);
+                            }, 5000);
+                        }}
+                    />
+                )}
+                {isSuccessOpen && (
+                    <AlertDialogBox
+                        showCloseButton
+                        type="success"
+                        title="Password Changed"
+                        aria-label="Password Changed Successfully"
+                        isOpen={isSuccessOpen}
+                        onClose={handleCloseSuccess}
+                        hideFooter
+                        size="sm">
+                        <div className="space-y-2">
+                            <h2 className="font-semibold text-black text-xl text-center">Password Changed Successfully</h2>
+                            <p className="text-gray-700 text-center">You can now use your new password to log in to your account.</p>
+                        </div>
+                    </AlertDialogBox>
+                )}
             </div>
         </header>
     );

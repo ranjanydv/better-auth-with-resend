@@ -15,7 +15,6 @@ export const Sidebar = ({ isCollapsed }: { isCollapsed: boolean }) => {
                     <div className="relative size-[30px]">
                         <Image fill alt="Logo" className="object-contain" src="/logo.png" />
                     </div>
-                    {/* <Banana name="shopping-bag" className="w-6 h-6 text-primary" /> */}
                     {!isCollapsed && <span className="ml-3 font-bold text-primary text-2xl">Nexsus</span>}
                 </div>
             </div>

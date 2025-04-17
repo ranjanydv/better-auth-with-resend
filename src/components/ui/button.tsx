@@ -3,6 +3,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
+import { LoaderCircle } from 'lucide-react';
 
 const buttonVariants = cva(
     "inline-flex justify-center items-center gap-2 disabled:opacity-50 aria-invalid:border-destructive focus-visible:border-ring rounded-sm outline-none aria-invalid:ring-destructive/20 focus-visible:ring-[3px] focus-visible:ring-ring/50 [&_svg:not([class*='size-'])]:size-4 font-medium text-sm whitespace-nowrap transition-all cursor-pointer [&_svg]:pointer-events-none disabled:pointer-events-none shrink-0 [&_svg]:shrink-0",
@@ -27,22 +28,30 @@ const buttonVariants = cva(
             variant: 'default',
             size: 'default',
         },
-    },
+    }
 );
 
 function Button({
     className,
     variant,
     size,
+    isLoading = false,
     asChild = false,
+    children,
     ...props
 }: React.ComponentProps<'button'> &
     VariantProps<typeof buttonVariants> & {
+        isLoading?: boolean;
         asChild?: boolean;
     }) {
     const Comp = asChild ? Slot : 'button';
 
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} data-slot="button" {...props} />;
+    return (
+        <Comp disabled={isLoading} className={cn(buttonVariants({ variant, size, className }))} data-slot="button" {...props}>
+            {isLoading && <LoaderCircle className='animate-spin' />}
+            {children}
+        </Comp>
+    );
 }
 
 export { Button, buttonVariants };
