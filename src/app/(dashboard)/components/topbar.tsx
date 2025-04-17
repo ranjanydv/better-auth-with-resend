@@ -103,16 +103,19 @@ export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => 
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
-
                 <AlertDialogBox
+                    actionButtonClassName="px-8!"
                     actionText="Logout"
                     cancelText="Cancel"
-                    description="Are you sure you want to logout? You'll need to sign in again to access your account."
+                    footerClassName="w-full justify-center!"
                     isOpen={isLogoutDialogOpen}
+                    size="xs"
                     title="Logout"
                     onAction={handleSignOut}
                     onClose={() => setIsLogoutDialogOpen(false)}
-                />
+                >
+                    <p className="-my-3 font-medium text-black text-center">Do you want to log out?</p>
+                </AlertDialogBox>
                 {isChangePasswordDialogOpen && (
                     <ChangePassword
                         isOpen={isChangePasswordDialogOpen}

@@ -59,6 +59,8 @@ export const changePassword = async (formData: FormData) => {
 
                 errorMessage = errorData.message || errorMessage;
             } catch (e) {
+                console.log('🚀 ~ action.ts:62 ~ changePassword ~ e:', e);
+
                 // If JSON parsing fails, use the status text or default message
                 errorMessage = response.statusText || errorMessage;
             }

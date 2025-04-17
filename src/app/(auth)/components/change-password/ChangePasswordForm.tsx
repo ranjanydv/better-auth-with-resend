@@ -118,7 +118,6 @@ import { changePassword } from './query';
 
 export default function ChangePassword({ isOpen, onClose, onSuccess }: { isOpen: boolean; onClose: () => void; onSuccess: () => void }) {
     const [isLoading, setIsLoading] = React.useState(false);
-    const [isSuccessOpen, setIsSuccessOpen] = React.useState(false);
 
     const {
         register,
@@ -147,6 +146,8 @@ export default function ChangePassword({ isOpen, onClose, onSuccess }: { isOpen:
                 toast.error(result.message || 'Failed to change password');
             }
         } catch (error) {
+            console.log('🚀 ~ ChangePasswordForm.tsx:149 ~ onSubmit ~ error:', error);
+
             toast.error('An unexpected error occurred');
         } finally {
             setIsLoading(false);

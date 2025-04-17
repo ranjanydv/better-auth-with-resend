@@ -43,6 +43,9 @@ interface IAlertDialogBox {
     position?: 'top' | 'center';
     footerDirection?: 'row' | 'row-reverse';
     iconClassName?: string;
+    footerClassName?: string;
+    cancelButtonClassName?: string;
+    actionButtonClassName?: string;
 }
 
 const AlertDialogBox = ({
@@ -64,6 +67,9 @@ const AlertDialogBox = ({
     position = 'top',
     footerDirection = 'row',
     iconClassName,
+    footerClassName,
+    cancelButtonClassName,
+    actionButtonClassName,
 }: IAlertDialogBox) => {
     const getIcon = () => {
         if (!showIcon || type === 'form') return null;
@@ -114,9 +120,9 @@ const AlertDialogBox = ({
                     </button>
                 )}
 
-                <AlertDialogHeader className={cn(showCloseButton && 'pr-8')}>
+                <AlertDialogHeader>
                     <AlertDialogTitle className="sr-only">{title || 'Nexsus'}</AlertDialogTitle>
-                    {getIcon() && <div className="flex justify-center items-center gap-2 py-3 pl-8">{getIcon()}</div>}
+                    {getIcon() && <div className="flex justify-center items-center gap-2 py-3">{getIcon()}</div>}
                     {description && <AlertDialogDescription className="text-base text-center">{description}</AlertDialogDescription>}
                 </AlertDialogHeader>
 
@@ -128,10 +134,11 @@ const AlertDialogBox = ({
                             'flex gap-2 mt-4',
                             footerDirection === 'row-reverse' ? 'flex-row-reverse' : 'flex-row',
                             'sm:flex-row sm:justify-end',
+                            footerClassName,
                         )}
                     >
-                        <AlertDialogCancel className="mt-0 px-6 rounded-full">{cancelText}</AlertDialogCancel>
-                        <AlertDialogAction className="px-6 rounded-full" onClick={onAction}>
+                        <AlertDialogCancel className={cn('mt-0 px-6 rounded-full', cancelButtonClassName)}>{cancelText}</AlertDialogCancel>
+                        <AlertDialogAction className={cn('px-6 rounded-full', actionButtonClassName)} onClick={onAction}>
                             {actionText}
                         </AlertDialogAction>
                     </AlertDialogFooter>
