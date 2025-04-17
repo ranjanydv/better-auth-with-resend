@@ -112,6 +112,7 @@ import { toast } from 'sonner';
 import AlertDialogBox from '@/components/custom/AlertDialogBox';
 import PasswordInput from '@/components/custom/password-input';
 import { Button } from '@/components/ui/button';
+
 import { ChangePasswordFormData, changePasswordSchema } from './schema';
 import { changePassword } from './query';
 
@@ -152,11 +153,9 @@ export default function ChangePassword({ isOpen, onClose, onSuccess }: { isOpen:
         }
     };
 
-
-
     return (
         <>
-            <AlertDialogBox type="form" title="Change Password" aria-label="Change Password" isOpen={isOpen} onClose={onClose} hideFooter size="sm">
+            <AlertDialogBox hideFooter aria-label="Change Password" isOpen={isOpen} size="sm" title="Change Password" type="form" onClose={onClose}>
                 <form className="space-y-4 -mt-5" onSubmit={handleSubmit(onSubmit)}>
                     <div className="">
                         <h2 className="font-semibold text-primary text-xl">Change Password</h2>
@@ -178,7 +177,7 @@ export default function ChangePassword({ isOpen, onClose, onSuccess }: { isOpen:
                         <Button className="px-6 rounded-full" disabled={isLoading} variant={'outline'} onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button isLoading={isLoading} className="px-6 rounded-full" disabled={isLoading} type="submit">
+                        <Button className="px-6 rounded-full" disabled={isLoading} isLoading={isLoading} type="submit">
                             {isLoading ? 'Changing Password...' : 'Change Password'}
                         </Button>
                     </div>

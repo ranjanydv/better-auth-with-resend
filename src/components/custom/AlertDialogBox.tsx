@@ -1,16 +1,18 @@
-import { cn } from '@/lib/utils';
 import { AlertCircle, CheckCircle2, Info, TriangleAlert, X } from 'lucide-react';
 import React from 'react';
+
+import { cn } from '@/lib/utils';
+
 import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
 } from '../ui/alert-dialog';
 
 const iconConfig = {
@@ -67,9 +69,11 @@ const AlertDialogBox = ({
         if (!showIcon || type === 'form') return null;
 
         const config = iconConfig[type as keyof typeof iconConfig];
+
         if (!config) return null;
 
         const Icon = config.icon;
+
         return (
             <span className={cn(`${config.bg} p-3 rounded-full`, iconClassName)}>
                 <Icon className={`w-6 h-6 ${config.text}`} />
@@ -101,9 +105,10 @@ const AlertDialogBox = ({
             <AlertDialogContent className={cn('w-full bg-white', sizeClasses[size], positionClasses[position], className)}>
                 {(showCloseButton || hideFooter) && (
                     <button
-                        onClick={onClose}
+                        aria-label="Close dialog"
                         className="top-4 right-4 absolute hover:bg-accent opacity-70 hover:opacity-100 p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-ring ring-offset-background focus:ring-offset-2 transition-opacity disabled:pointer-events-none"
-                        aria-label="Close dialog">
+                        onClick={onClose}
+                    >
                         <X className="w-4 h-4" />
                         <span className="sr-only">Close</span>
                     </button>
@@ -122,10 +127,11 @@ const AlertDialogBox = ({
                         className={cn(
                             'flex gap-2 mt-4',
                             footerDirection === 'row-reverse' ? 'flex-row-reverse' : 'flex-row',
-                            'sm:flex-row sm:justify-end'
-                        )}>
+                            'sm:flex-row sm:justify-end',
+                        )}
+                    >
                         <AlertDialogCancel className="mt-0 px-6 rounded-full">{cancelText}</AlertDialogCancel>
-                        <AlertDialogAction onClick={onAction} className="px-6 rounded-full">
+                        <AlertDialogAction className="px-6 rounded-full" onClick={onAction}>
                             {actionText}
                         </AlertDialogAction>
                     </AlertDialogFooter>

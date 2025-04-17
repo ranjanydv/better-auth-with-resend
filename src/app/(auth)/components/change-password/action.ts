@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+
 import { changePasswordSchema } from './schema';
 
 export const changePassword = async (formData: FormData) => {
@@ -34,8 +35,8 @@ export const changePassword = async (formData: FormData) => {
         if (newPassword === currentPassword) {
             return {
                 success: false,
-                message: "New password must be different from current password",
-                error: "New password must be different from current password",
+                message: 'New password must be different from current password',
+                error: 'New password must be different from current password',
             };
         }
 
@@ -49,16 +50,19 @@ export const changePassword = async (formData: FormData) => {
         });
 
         if (!response.ok) {
-            console.log("🚀 ~ action.ts:52 ~ changePassword ~ response:", response)
+            console.log('🚀 ~ action.ts:52 ~ changePassword ~ response:', response);
 
             let errorMessage = 'Failed to change password';
+
             try {
                 const errorData = await response.json();
+
                 errorMessage = errorData.message || errorMessage;
             } catch (e) {
                 // If JSON parsing fails, use the status text or default message
                 errorMessage = response.statusText || errorMessage;
             }
+
             return {
                 success: false,
                 message: errorMessage,
@@ -72,6 +76,7 @@ export const changePassword = async (formData: FormData) => {
         };
     } catch (error) {
         console.error('Password change error:', error);
+
         return {
             success: false,
             message: 'An unexpected error occurred while changing password',

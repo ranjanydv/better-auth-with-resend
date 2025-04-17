@@ -18,7 +18,6 @@ import {
 import { authClient, signOut } from '@/lib/auth-client';
 import { PanelLeftCloseIcon } from '@/lib/icons/Panel';
 import ChangePassword from '@/app/(auth)/components/change-password/ChangePasswordForm';
-import { Button } from '@/components/ui/button';
 
 export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => {
     const { data: session, isPending } = authClient.useSession();
@@ -77,8 +76,8 @@ export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => 
                             <div className="flex items-center gap-2">
                                 <Avatar>
                                     <AvatarImage
-                                        src={session?.user?.image || `/logo.png`}
                                         alt={isPending ? 'Loading...' : session?.user?.name || 'Guest'}
+                                        src={session?.user?.image || `/logo.png`}
                                     />
                                     <AvatarFallback>NE</AvatarFallback>
                                 </Avatar>
@@ -99,20 +98,20 @@ export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => 
                         </DropdownMenuItem>
                         <DropdownMenuItem className="text-red-600 cursor-pointer">
                             <button className="flex items-center gap-2 w-full" onClick={() => setIsLogoutDialogOpen(true)}>
-                                <LogOutIcon size={14} className="text-red-600" /> Log out
+                                <LogOutIcon className="text-red-600" size={14} /> Log out
                             </button>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
 
                 <AlertDialogBox
-                    isOpen={isLogoutDialogOpen}
-                    onClose={() => setIsLogoutDialogOpen(false)}
-                    onAction={handleSignOut}
-                    title="Logout"
-                    description="Are you sure you want to logout? You'll need to sign in again to access your account."
                     actionText="Logout"
                     cancelText="Cancel"
+                    description="Are you sure you want to logout? You'll need to sign in again to access your account."
+                    isOpen={isLogoutDialogOpen}
+                    title="Logout"
+                    onAction={handleSignOut}
+                    onClose={() => setIsLogoutDialogOpen(false)}
                 />
                 {isChangePasswordDialogOpen && (
                     <ChangePassword
@@ -129,14 +128,15 @@ export const TopBar = ({ onToggleSidebar }: { onToggleSidebar: () => void }) => 
                 )}
                 {isSuccessOpen && (
                     <AlertDialogBox
+                        hideFooter
                         showCloseButton
-                        type="success"
-                        title="Password Changed"
                         aria-label="Password Changed Successfully"
                         isOpen={isSuccessOpen}
+                        size="sm"
+                        title="Password Changed"
+                        type="success"
                         onClose={handleCloseSuccess}
-                        hideFooter
-                        size="sm">
+                    >
                         <div className="space-y-2">
                             <h2 className="font-semibold text-black text-xl text-center">Password Changed Successfully</h2>
                             <p className="text-gray-700 text-center">You can now use your new password to log in to your account.</p>

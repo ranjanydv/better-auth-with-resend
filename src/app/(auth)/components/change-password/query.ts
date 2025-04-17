@@ -1,4 +1,5 @@
 import { authClient } from '@/lib/auth-client';
+
 import { ChangePasswordFormData } from './schema';
 
 export async function changePassword(data: ChangePasswordFormData): Promise<{ success: boolean; message?: string }> {
@@ -15,7 +16,7 @@ export async function changePassword(data: ChangePasswordFormData): Promise<{ su
         };
     } catch (error) {
         console.error('Password change error:', error);
-        
+
         // Handle specific error cases if needed
         if (error instanceof Error) {
             return {
