@@ -32,7 +32,7 @@ interface IAlertDialogBox {
     description?: string;
     cancelText?: string;
     actionText?: string;
-    onClose: () => void;
+    onClose?: () => void; // Made onClose optional
     onAction?: () => void;
     trigger?: React.ReactNode;
     children?: React.ReactNode;
@@ -56,7 +56,7 @@ const AlertDialogBox = ({
     description,
     cancelText = 'Cancel',
     actionText = 'Continue',
-    onClose,
+    onClose, // Still using onClose internally
     onAction,
     trigger,
     children,
@@ -71,6 +71,11 @@ const AlertDialogBox = ({
     cancelButtonClassName,
     actionButtonClassName,
 }: IAlertDialogBox) => {
+    const [internalOpen, setInternalOpen] = React.useState(false);
+    const controlled = isOpen !== undefined;
+    const openState = controlled ? isOpen : internalOpen;
+    const setOpenState = controlled ? onClose : setInternalOpen;
+
     const getIcon = () => {
         if (!showIcon || type === 'form') return null;
 
@@ -105,15 +110,20 @@ const AlertDialogBox = ({
         center: 'top-[50%] -translate-y-1/2 data-[state=open]:slide-in-from-top-[10%] data-[state=closed]:slide-out-to-bottom-[10%]',
     };
 
+    const handleClose = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setOpenState?.(false);
+    };
+
     return (
-        <AlertDialog open={isOpen} onOpenChange={onClose}>
-            {trigger && <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>}
+        <AlertDialog open={openState} onOpenChange={setOpenState}>
+            {trigger && <AlertDialogTrigger asChild onClick={() => setOpenState?.(true)}>{trigger}</AlertDialogTrigger>}
             <AlertDialogContent className={cn('w-full bg-white', sizeClasses[size], positionClasses[position], className)}>
                 {(showCloseButton || hideFooter) && (
                     <button
                         aria-label="Close dialog"
                         className="top-4 right-4 absolute hover:bg-accent opacity-70 hover:opacity-100 p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-ring ring-offset-background focus:ring-offset-2 transition-opacity disabled:pointer-events-none"
-                        onClick={onClose}
+                        onClick={handleClose}
                     >
                         <X className="w-4 h-4" />
                         <span className="sr-only">Close</span>
@@ -137,7 +147,7 @@ const AlertDialogBox = ({
                             footerClassName,
                         )}
                     >
-                        <AlertDialogCancel className={cn('mt-0 px-6 rounded-full', cancelButtonClassName)}>{cancelText}</AlertDialogCancel>
+                        <AlertDialogCancel className={cn('mt-0 px-6 rounded-full', cancelButtonClassName)} onClick={handleClose}>{cancelText}</AlertDialogCancel>
                         <AlertDialogAction className={cn('px-6 rounded-full', actionButtonClassName)} onClick={onAction}>
                             {actionText}
                         </AlertDialogAction>
