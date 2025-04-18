@@ -117,7 +117,11 @@ const AlertDialogBox = ({
 
     return (
         <AlertDialog open={openState} onOpenChange={setOpenState}>
-            {trigger && <AlertDialogTrigger asChild onClick={() => setOpenState?.(true)}>{trigger}</AlertDialogTrigger>}
+            {trigger && (
+                <AlertDialogTrigger asChild onClick={() => setOpenState?.(true)}>
+                    {trigger}
+                </AlertDialogTrigger>
+            )}
             <AlertDialogContent className={cn('w-full bg-white', sizeClasses[size], positionClasses[position], className)}>
                 {(showCloseButton || hideFooter) && (
                     <button
@@ -147,7 +151,9 @@ const AlertDialogBox = ({
                             footerClassName,
                         )}
                     >
-                        <AlertDialogCancel className={cn('mt-0 px-6 rounded-full', cancelButtonClassName)} onClick={handleClose}>{cancelText}</AlertDialogCancel>
+                        <AlertDialogCancel className={cn('mt-0 px-6 rounded-full', cancelButtonClassName)} onClick={handleClose}>
+                            {cancelText}
+                        </AlertDialogCancel>
                         <AlertDialogAction className={cn('px-6 rounded-full', actionButtonClassName)} onClick={onAction}>
                             {actionText}
                         </AlertDialogAction>
