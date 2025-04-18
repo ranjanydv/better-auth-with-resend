@@ -1,6 +1,7 @@
-import { NavigationItems } from '@/types/navigation';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import { NavigationItems } from '@/types/navigation';
 
 interface MenuItemProps {
     item: NavigationItems;
@@ -18,7 +19,7 @@ const MenuItem = ({ item, isCollapsed }: MenuItemProps) => {
             }`}
             href={item.href}
         >
-                {item.icon}
+            {item.icon}
             {!isCollapsed && <span className="flex-1 ml-3 text-left">{item.label}</span>}
         </Link>
     );

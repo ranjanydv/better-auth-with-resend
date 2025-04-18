@@ -1,4 +1,14 @@
-import { IconlyCategory, IconlyDiscount, IconlyDocument, IconlyGame, IconlyInfoCircle, IconlyLocation, IconlySetting, IconlyTicketStar, IconlyUser } from '@/lib/icons/iconly';
+import {
+    IconlyCategory,
+    IconlyDiscount,
+    IconlyDocument,
+    IconlyGame,
+    IconlyInfoCircle,
+    IconlyLocation,
+    IconlySetting,
+    IconlyTicketStar,
+    IconlyUser,
+} from '@/lib/icons/iconly';
 import { NavigationItems } from '@/types/navigation';
 
 export const navItemsData: NavigationItems[] = [

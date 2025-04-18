@@ -6,9 +6,9 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
 import { AnimatePresence, MotionDiv, MotionLi } from '@/utilities/motion-components';
+import { cn } from '@/lib/utils';
 
 import { AnimatedEyeIcon } from './animated-eye-button';
-import { cn } from '@/lib/utils';
 
 interface PasswordInputProps extends Omit<UseFormRegisterReturn, 'onChange' | 'onBlur'> {
     startIcon?: React.ReactNode;
@@ -160,8 +160,8 @@ export default function PasswordInput({
                         className={cn('pe-9', className)}
                         id={id}
                         label={label}
-                        required={required}
                         placeholder={placeholder}
+                        required={required}
                         startIcon={startIcon}
                         type={isVisible ? 'text' : 'password'}
                         onBlur={(e) => {
@@ -180,7 +180,8 @@ export default function PasswordInput({
                         aria-pressed={isVisible}
                         className="focus:z-10 absolute inset-y-0 flex justify-center items-center disabled:opacity-50 focus-visible:border-ring rounded-e-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 w-9 h-full text-muted-foreground/80 hover:text-foreground transition-[color,box-shadow] disabled:cursor-not-allowed disabled:pointer-events-none end-1"
                         type="button"
-                        onClick={toggleVisibility}>
+                        onClick={toggleVisibility}
+                    >
                         <AnimatedEyeIcon aria-hidden="true" isVisible={isVisible} />
                     </button>
                 </div>
@@ -200,7 +201,8 @@ export default function PasswordInput({
                                 exit="hidden"
                                 initial="hidden"
                                 role="progressbar"
-                                variants={progressVariants}>
+                                variants={progressVariants}
+                            >
                                 <MotionDiv
                                     animate={{ width: `${(strengthScore / 4) * 100}%` }}
                                     className={`h-full ${getStrengthColor(strengthScore)}`}
@@ -220,7 +222,8 @@ export default function PasswordInput({
                                 className="overflow-hidden"
                                 exit="exit"
                                 initial="hidden"
-                                variants={containerVariants}>
+                                variants={containerVariants}
+                            >
                                 {/* Password strength description */}
                                 <p className="mb-2 font-medium text-foreground text-sm" id={`${id}-description`}>
                                     {getStrengthText(strengthScore)}. Must contain:
@@ -234,7 +237,8 @@ export default function PasswordInput({
                                             animate={{ opacity: 1, x: 0 }}
                                             className="flex items-center gap-2"
                                             initial={{ opacity: 0, x: -10 }}
-                                            transition={{ delay: index * 0.05 }}>
+                                            transition={{ delay: index * 0.05 }}
+                                        >
                                             {req.met ? (
                                                 <CheckIcon aria-hidden="true" className="text-emerald-500" size={16} />
                                             ) : (

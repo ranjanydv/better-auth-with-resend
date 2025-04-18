@@ -59,15 +59,31 @@ export default function ChangePassword({ isOpen, onClose, onSuccess }: { isOpen:
                         <small className="text-gray-700 leading-tight">Your new password must be different from the previous password.</small>
                     </div>
                     <div className="space-y-2">
-                        <PasswordInput {...register('currentPassword')} label='Current Password' name="currentPassword" placeholder="Current Password" />
+                        <PasswordInput
+                            {...register('currentPassword')}
+                            label="Current Password"
+                            name="currentPassword"
+                            placeholder="Current Password"
+                        />
                         {errors.currentPassword && <p className="text-red-500 text-sm">{errors.currentPassword.message}</p>}
                     </div>
                     <div className="space-y-2">
-                        <PasswordInput showStrengthIndicator {...register('newPassword')} label='New Password' name="newPassword" placeholder="New Password" />
+                        <PasswordInput
+                            showStrengthIndicator
+                            {...register('newPassword')}
+                            label="New Password"
+                            name="newPassword"
+                            placeholder="New Password"
+                        />
                         {errors.newPassword && <p className="text-red-500 text-sm">{errors.newPassword.message}</p>}
                     </div>
                     <div className="space-y-2">
-                        <PasswordInput {...register('confirmPassword')} label='Confirm Password' name="confirmPassword" placeholder="Confirm Password" />
+                        <PasswordInput
+                            {...register('confirmPassword')}
+                            label="Confirm Password"
+                            name="confirmPassword"
+                            placeholder="Confirm Password"
+                        />
                         {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
                     </div>
                     <div className="flex flex-wrap justify-end items-center gap-2 w-full">
