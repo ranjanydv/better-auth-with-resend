@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface NavigationSection {
     title: string;
     items: {
@@ -10,4 +12,9 @@ export interface NavigationSection {
             href: string;
         }[];
     }[];
+}
+export interface NavigationItems {
+    label: string;
+    icon: React.ReactNode;
+    href: string;
 }

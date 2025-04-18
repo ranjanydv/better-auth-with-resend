@@ -5,7 +5,15 @@ export const navigationData: NavigationSection[] = [
         title: 'Main',
         items: [
             { label: 'Dashboard', icon: 'layoutDashboard', href: '/dashboard' },
-            { label: 'Profile', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Dashboard', icon: 'layoutDashboard', href: '/dashboard' },
+            { label: 'Leads', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Clients', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Counsellors', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Universities', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Program', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Documents', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Offers', icon: 'user', href: '/dashboard/profile' },
+            { label: 'Settings', icon: 'user', href: '/dashboard/profile' },
         ],
     },
     // {
@@ -22,18 +30,6 @@ export const navigationData: NavigationSection[] = [
     //         { label: 'Calendar', icon: 'calendar', href: '/calendar' },
     //     ],
     // },
-    {
-        title: 'Pages',
-        items: [
-            { label: 'Profile', icon: 'user', href: '/profile' },
-            { label: 'Settings', icon: 'settings', href: '/settings' },
-        ],
-    },
-    {
-        title: 'General',
-        items: [
-            { label: 'Forms', icon: 'formInput', href: '/forms' },
-            { label: 'UI Elements', icon: 'palette', href: '/ui-elements' },
-        ],
-    },
 ];
+
+
