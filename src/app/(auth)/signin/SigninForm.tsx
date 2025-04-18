@@ -127,7 +127,7 @@ export default function Login() {
                             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                         </div>
                         <div className="space-y-2">
-                            <PasswordInput {...register('password')} name="password" startIcon={<ShieldSlash />} />
+                            <PasswordInput {...register('password')} label='' name="password" startIcon={<ShieldSlash />} />
                             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                         </div>
                         <div className="flex justify-between items-center">

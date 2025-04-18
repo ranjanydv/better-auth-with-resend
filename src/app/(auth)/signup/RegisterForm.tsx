@@ -79,7 +79,7 @@ export default function Register() {
                             <Input
                                 {...register('name')}
                                 required
-                                className="pl-10"
+                                className="pl-10 border-input"
                                 placeholder="Name"
                                 startIcon={<User strokeWidth={1.4} />}
                                 type="text"
@@ -90,7 +90,7 @@ export default function Register() {
                             <Input
                                 {...register('email')}
                                 required
-                                className="pl-10"
+                                className="pl-10 border-input"
                                 placeholder="Email"
                                 startIcon={<Mail strokeWidth={1.4} />}
                                 type="email"
@@ -98,12 +98,14 @@ export default function Register() {
                             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                         </div>
                         <div className="space-y-2">
-                            <PasswordInput {...register('password')} showStrengthIndicator name="password" startIcon={<ShieldSlash />} />
+                            <PasswordInput {...register('password')} showStrengthIndicator className='border-input' label='' name="password" startIcon={<ShieldSlash />} />
                             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                         </div>
                         <div className="space-y-2">
                             <PasswordInput
                                 {...register('confirmPassword')}
+                                className='border-input'
+                                label=''
                                 name="confirmPassword"
                                 placeholder="Confirm Password"
                                 startIcon={<ShieldSlash />}
@@ -113,13 +115,10 @@ export default function Register() {
                         <div className="flex justify-between items-center">
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="remember" />
-                                <Label className="text-sm" htmlFor="remember">
-                                    Remember me
+                                <Label className="text-primary text-sm" htmlFor="remember">
+                                    Accept terms and conditions
                                 </Label>
                             </div>
-                            <Link className="text-primary text-sm hover:underline" href="/forgot-password">
-                                Forgot Password?
-                            </Link>
                         </div>
                         <Button className="w-full" disabled={isLoading} type="submit">
                             {isLoading ? 'Creating account...' : 'Create Account'}
